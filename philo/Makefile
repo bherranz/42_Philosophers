@@ -1,6 +1,11 @@
 NAME = philo
 
-SRCS = src/main.c \
+SRCS =  src/main.c \
+		src/utils.c \
+		src/init.c \
+		src/routines.c \
+		src/actions.c \
+		src/philo_utils.c \
 
 # Define Colors
 GREEN  := \033[1;32m  # Bold Green
@@ -16,7 +21,7 @@ OBJS = ${SRCS:.c=.o}
 .SILENT: $(OBJS)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -pthread -g3
 REMOVE = rm -f
 
 all: $(NAME)
