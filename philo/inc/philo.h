@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:38:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 12:56:34 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 17:15:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_data
 
 void		print_error(char *msg, t_data *data);
 long long	get_ms(t_data *data);
+int			ft_strcmp(const char *s1, const char *s2);
 int			ft_atoi(const char *str);
 size_t		ft_strlen(const char *s);
 void		free_data(t_data *data);

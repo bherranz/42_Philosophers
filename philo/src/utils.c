@@ -6,18 +6,11 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:06:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 13:17:30 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 17:14:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
-
-void	print_error(char *msg, t_data *data)
-{
-	write(2, msg, ft_strlen(msg));
-	free_data(data);
-	exit(1);
-}
 
 long long	get_ms(t_data *data)
 {
@@ -46,6 +39,16 @@ void	free_data(t_data *data)
 		pthread_mutex_destroy(&data->print);
 	if (data->main_init)
 		pthread_mutex_destroy(&data->mutex_main);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return ((int)((unsigned char)(*s1) - (unsigned char)(*s2)));
 }
 
 size_t	ft_strlen(const char *s)

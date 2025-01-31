@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 22:39:10 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 13:19:36 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 17:39:37 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	*philo_life(void *arg)
 			return (NULL);
 		if (ft_sleep(philo))
 			return (NULL);
+		if (check_finish(philo))
+			return (NULL);
 		print_status(philo, "is thinking");
 	}
 	return (NULL);
@@ -88,12 +90,17 @@ void	*main_routine(void *arg)
 
 	data = (t_data *)arg;
 	i = 0;
-	while (1)
+	while (!check_finish(data->philos))
 	{
 		while (i < data->num_philos)
 		{
 			if (philo_dead(data, i))
+			{
+				pthread_mutex_lock(&data->mutex_main);
+				data->dead = 1;
+				pthread_mutex_unlock(&data->mutex_main);
 				return (NULL);
+			}
 			i++;
 		}
 		i = 0;
