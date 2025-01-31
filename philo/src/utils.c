@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:06:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/30 21:57:31 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 12:41:36 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	start(t_data *data)
 {
 	struct timeval	t;
 
-	pthread_mutex_lock(&data->print);
+	pthread_mutex_lock(&data->mutex_main);
 	data->ready = 1;
 	gettimeofday(&t, NULL);
 	data->start = t.tv_sec * 1000 + t.tv_usec / 1000;
-	pthread_mutex_unlock(&data->print);
+	pthread_mutex_unlock(&data->mutex_main);
 }
 
 void	print_error(char *msg, t_data *data)
@@ -50,13 +50,14 @@ void	free_data(t_data *data)
 		while (data->num_philos)
 		{
 			data->num_philos--;
-			//pthread_detach(data->philos[data->num_philos].thread);
 			pthread_mutex_destroy(&data->philos[data->num_philos].mutex_philo);
 		}
 		free(data->philos);
 	}
 	if (data->print_init)
 		pthread_mutex_destroy(&data->print);
+	if (data->main_init)
+		pthread_mutex_destroy(&data->mutex_main);
 }
 
 size_t	ft_strlen(const char *s)

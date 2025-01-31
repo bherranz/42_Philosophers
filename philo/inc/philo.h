@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:38:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/30 17:35:02 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 12:37:59 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_data
 	int				time_sleep;
 	int				num_must_eat;
 	int				print_init;
+	int				main_init;
 	int				dead;
 	int				ready;
 	long long		start;
@@ -50,6 +51,7 @@ typedef struct s_data
 	pthread_t		main;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
+	pthread_mutex_t	mutex_main;
 }					t_data;
 
 void		print_error(char *msg, t_data *data);

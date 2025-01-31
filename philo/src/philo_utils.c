@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:47:51 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/30 17:48:06 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 12:41:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,14 @@ void	print_status(t_philo *philo, char *status)
 
 int	check_finish(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->data->mutex_main);
 	if (philo->data->dead || (philo->data->num_must_eat != -1
 			&& philo->num_eat >= philo->data->num_must_eat))
+	{
+		pthread_mutex_unlock(&philo->data->mutex_main);
 		return (1);
+	}
+	pthread_mutex_unlock(&philo->data->mutex_main);
 	return (check_death(philo));
 }
 
@@ -50,8 +55,9 @@ int	check_death(t_philo *philo)
 	if (get_ms(philo->data) - philo->last_eat > philo->data->time_die)
 	{
 		philo->dead = 1;
-		pthread_mutex_unlock(&philo->mutex_philo);
 		print_status(philo, "died");
+		pthread_mutex_unlock(&philo->mutex_philo);
+		return (1);
 	}
 	pthread_mutex_unlock(&philo->mutex_philo);
 	return (philo->dead);

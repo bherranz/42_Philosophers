@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:03:36 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/30 16:36:10 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 12:38:08 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,15 @@ void	init_structs(t_data *data)
 	data->print_init = 0;
 	data->dead = 0;
 	data->ready = 0;
+	data->main_init = 0;
 	if (pthread_mutex_init(&data->print, NULL) != 0)
 		print_error("Error: Mutex init error\n", data);
 	else
 		data->print_init = 1;
+	if (pthread_mutex_init(&data->mutex_main, NULL) != 0)
+		print_error("Error: Mutex init error\n", data);
+	else
+		data->main_init = 1;
 }
 
 void	init_forks(t_data *data)

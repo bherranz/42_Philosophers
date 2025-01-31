@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 22:54:48 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/30 18:03:44 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 12:10:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ int	ft_eat(t_philo *philo)
 		return (1);
 	print_status(philo, "has taken a fork");
 	print_status(philo, "is eating");
+	pthread_mutex_lock(&philo->mutex_philo);
+	philo->last_eat = get_ms(philo->data);
+	pthread_mutex_unlock(&philo->mutex_philo);
 	split_usleep(philo, philo->data->time_eat);
 	if (check_finish(philo))
 	{
@@ -45,7 +48,6 @@ int	ft_eat(t_philo *philo)
 		return (1);
 	}
 	pthread_mutex_lock(&philo->mutex_philo);
-	philo->last_eat = get_ms(philo->data);
 	philo->num_eat++;
 	pthread_mutex_unlock(&philo->mutex_philo);
 	unlock_forks(philo);

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 22:39:10 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/30 18:05:26 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 12:40:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	wait_philos(t_data *data)
 {
 	while (1)
 	{
-		pthread_mutex_lock(&data->print);
+		pthread_mutex_lock(&data->mutex_main);
 		if (data->ready)
 		{
-			pthread_mutex_unlock(&data->print);
+			pthread_mutex_unlock(&data->mutex_main);
 			break ;
 		}
-		pthread_mutex_unlock(&data->print);
+		pthread_mutex_unlock(&data->mutex_main);
 	}
 }
 
@@ -55,9 +55,9 @@ void	*philo_life(void *arg)
 	while (!check_finish(philo))
 	{
 		if (ft_eat(philo))
-			break ;
+			return (NULL);
 		if (ft_sleep(philo))
-			break ;
+			return (NULL);
 		print_status(philo, "is thinking");
 	}
 	return (NULL);
