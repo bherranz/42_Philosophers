@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:47:51 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 12:41:26 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 13:19:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	check_death(t_philo *philo)
 	return (philo->dead);
 }
 
-int philo_dead(t_data *data, int i)
+int	philo_dead(t_data *data, int i)
 {
 	pthread_mutex_lock(&data->philos[i].mutex_philo);
 	data->dead = data->philos[i].dead;

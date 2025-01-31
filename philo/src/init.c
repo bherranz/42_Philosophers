@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:03:36 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 12:38:08 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 13:16:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	init_forks(t_data *data)
 {
 	int	i;	
 
-	data->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * data->num_philos);
+	data->forks = (pthread_mutex_t *)
+		malloc(sizeof(pthread_mutex_t) * data->num_philos);
 	if (!data->forks)
 		print_error("Error: Malloc error\n", data);
 	i = 0;
@@ -48,6 +49,20 @@ void	init_forks(t_data *data)
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 			print_error("Error: Mutex init error\n", data);
 		i++;
+	}
+}
+
+void	thread_cases(t_data *data, t_philo *philo)
+{
+	if (data->num_philos == 1)
+	{
+		if (pthread_create(&philo->thread, NULL, case_one, (void *)philo))
+			print_error("Error: Thread creation error\n", data);
+	}
+	else
+	{
+		if (pthread_create(&philo->thread, NULL, philo_life, (void *)philo))
+			print_error("Error: Thread creation error\n", data);
 	}
 }
 
@@ -69,14 +84,11 @@ void	init_routines(t_data *data)
 		data->philos[i].left_fork = i;
 		data->philos[i].right_fork = (i + 1) % data->num_philos;
 		data->philos[i].data = data;
-		if (pthread_create(&data->philos[i].thread, NULL, philo_life,
-				(void *)&data->philos[i]) != 0)
-			print_error("Error: Thread creation error\n", data);
+		thread_cases(data, &data->philos[i]);
 		i++;
 	}
 	if (pthread_create(&data->main, NULL, main_routine, (void *)data) != 0)
 		print_error("Error: Thread creation error\n", data);
-	start(data);
 }
 
 void	set_data(t_data *data, int argc, char **argv)

@@ -6,11 +6,22 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 22:54:48 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 12:10:09 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 13:18:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+void	start(t_data *data)
+{
+	struct timeval	t;
+
+	pthread_mutex_lock(&data->mutex_main);
+	data->ready = 1;
+	gettimeofday(&t, NULL);
+	data->start = t.tv_sec * 1000 + t.tv_usec / 1000;
+	pthread_mutex_unlock(&data->mutex_main);
+}
 
 void	split_usleep(t_philo *philo, long long time)
 {

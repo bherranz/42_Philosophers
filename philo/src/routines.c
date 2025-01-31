@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 22:39:10 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 12:40:52 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 13:19:36 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,24 @@ void	wait_philos(t_data *data)
 		}
 		pthread_mutex_unlock(&data->mutex_main);
 	}
+}
+
+void	*case_one(void *arg)
+{
+	t_philo	*philo;
+	t_data	*data;
+
+	philo = (t_philo *)arg;
+	data = philo->data;
+	wait_philos(data);
+	pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
+	print_status(philo, "has taken a fork");
+	usleep(data->time_die * 1000);
+	pthread_mutex_lock(&philo->mutex_philo);
+	philo->dead = 1;
+	print_status(philo, "died");
+	pthread_mutex_unlock(&philo->mutex_philo);
+	return (NULL);
 }
 
 void	*philo_life(void *arg)
@@ -75,7 +93,7 @@ void	*main_routine(void *arg)
 		while (i < data->num_philos)
 		{
 			if (philo_dead(data, i))
-				return (NULL) ;
+				return (NULL);
 			i++;
 		}
 		i = 0;

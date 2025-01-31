@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:38:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 12:37:59 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/31 12:56:34 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void		init_structs(t_data *data);
 void		init_routines(t_data *data);
 void		set_data(t_data *data, int argc, char **argv);
 
+void		*case_one(void *arg);
 void		*philo_life(void *philo);
 void		*main_routine(void *arg);
 void		wait_routines(t_data *data);
