@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:47:51 by codespace         #+#    #+#             */
-/*   Updated: 2025/02/03 21:30:30 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/03 23:13:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	everyone_ate(t_data *data)
 		pthread_mutex_unlock(&data->philos[i].mutex_philo);
 		i++;
 	}
-	pthread_mutex_unlock(&data->mutex_main);
 	return (1);
 }
 
