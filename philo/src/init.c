@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:03:36 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 13:16:44 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/03 21:28:55 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,6 @@ void	init_structs(t_data *data)
 		data->main_init = 1;
 }
 
-void	init_forks(t_data *data)
-{
-	int	i;	
-
-	data->forks = (pthread_mutex_t *)
-		malloc(sizeof(pthread_mutex_t) * data->num_philos);
-	if (!data->forks)
-		print_error("Error: Malloc error\n", data);
-	i = 0;
-	while (i < data->num_philos)
-	{
-		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
-			print_error("Error: Mutex init error\n", data);
-		i++;
-	}
-}
-
 void	thread_cases(t_data *data, t_philo *philo)
 {
 	if (data->num_philos == 1)
@@ -64,6 +47,21 @@ void	thread_cases(t_data *data, t_philo *philo)
 		if (pthread_create(&philo->thread, NULL, philo_life, (void *)philo))
 			print_error("Error: Thread creation error\n", data);
 	}
+}
+
+pthread_mutex_t	find_fork(t_data *data, int index)
+{
+	int		i;
+	t_forks	*current;
+
+	current = data->forks;
+	i = 0;
+	while (current && i < index)
+	{
+		current = current->next;
+		i++;
+	}
+	return (current->current);
 }
 
 void	init_routines(t_data *data)
@@ -81,9 +79,11 @@ void	init_routines(t_data *data)
 		data->philos[i].id = i + 1;
 		data->philos[i].dead = 0;
 		data->philos[i].num_eat = 0;
-		data->philos[i].left_fork = i;
-		data->philos[i].right_fork = (i + 1) % data->num_philos;
+		data->philos[i].left_fork = find_fork(data, i);
+		data->philos[i].right_fork
+			= find_fork(data, ((i + 1) % data->num_philos));
 		data->philos[i].data = data;
+		data->philos[i].last_eat = 0;
 		thread_cases(data, &data->philos[i]);
 		i++;
 	}
@@ -93,6 +93,8 @@ void	init_routines(t_data *data)
 
 void	set_data(t_data *data, int argc, char **argv)
 {
+	struct timeval	t;
+
 	data->num_philos = ft_atoi(argv[1]);
 	data->time_die = ft_atoi(argv[2]);
 	data->time_eat = ft_atoi(argv[3]);
@@ -107,4 +109,6 @@ void	set_data(t_data *data, int argc, char **argv)
 		print_error(
 			"Error: Invalid num. of times each philosopher must eat\n", data);
 	init_forks(data);
+	gettimeofday(&t, NULL);
+	data->start = t.tv_sec * 1000 + t.tv_usec / 1000;
 }

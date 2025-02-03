@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:38:45 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 17:14:32 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/03 22:40:28 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@ void	print_error(char *msg, t_data *data)
 	write(2, msg, ft_strlen(msg));
 	free_data(data);
 	exit(1);
+}
+
+void	start(t_data *data)
+{
+	struct timeval	t;
+
+	pthread_mutex_lock(&data->mutex_main);
+	data->ready = 1;
+	gettimeofday(&t, NULL);
+	data->start = t.tv_sec * 1000 + t.tv_usec / 1000;
+	pthread_mutex_unlock(&data->mutex_main);
 }
 
 int	main(int argc, char **argv)

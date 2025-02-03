@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:06:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 17:14:21 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/03 21:28:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 long long	get_ms(t_data *data)
 {
 	struct timeval	now;
+	long long		start;
 
+	pthread_mutex_lock(&data->mutex_main);
+	start = data->start;
+	pthread_mutex_unlock(&data->mutex_main);
 	gettimeofday(&now, NULL);
-	return (now.tv_sec * 1000 + now.tv_usec / 1000 - data->start);
+	return (now.tv_sec * 1000 + now.tv_usec / 1000 - start);
 }
 
 void	free_data(t_data *data)
@@ -25,7 +29,7 @@ void	free_data(t_data *data)
 	if (!data)
 		return ;
 	if (data->forks)
-		free(data->forks);
+		free_forks(data->forks);
 	if (data->philos)
 	{
 		while (data->num_philos)

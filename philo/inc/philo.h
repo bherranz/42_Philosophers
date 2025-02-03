@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:38:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 17:15:01 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/03 21:30:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,22 @@
 # include <sys/time.h>
 
 typedef struct s_data	t_data;
+typedef struct s_forks	t_forks;
+
+typedef struct s_forks
+{
+	pthread_mutex_t	current;
+	int				index;
+	t_forks			*next;
+}	t_forks;
 
 typedef struct s_philo
 {
 	int				id;
 	int				dead;
 	int				num_eat;
-	int				left_fork;
-	int				right_fork;
+	pthread_mutex_t	left_fork;
+	pthread_mutex_t	right_fork;
 	long long		last_eat;
 	pthread_t		thread;
 	t_data			*data;
@@ -49,7 +57,7 @@ typedef struct s_data
 	long long		start;
 	t_philo			*philos;
 	pthread_t		main;
-	pthread_mutex_t	*forks;
+	t_forks			*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	mutex_main;
 }					t_data;
@@ -78,7 +86,12 @@ int			check_death(t_philo *philo);
 int			philo_dead(t_data *data, int i);
 void		start(t_data *data);
 void		wait_philos(t_data *data);
-void		init_forks(t_data *data);
 int			everyone_ate(t_data *data);
+
+void		init_forks(t_data *data);
+void		ft_lstadd_back(t_forks **lst, t_forks *new);
+t_forks		*ft_lstlast(t_forks *lst);
+t_forks		*ft_lstnew(int i);
+void		free_forks(t_forks *file_list);
 
 #endif

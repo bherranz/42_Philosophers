@@ -1,6 +1,7 @@
 NAME = philo
 
 SRCS =  src/main.c \
+		src/forks.c \
 		src/utils.c \
 		src/init.c \
 		src/routines.c \
@@ -21,7 +22,7 @@ OBJS = ${SRCS:.c=.o}
 .SILENT: $(OBJS)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g3
+CFLAGS = -Wall -Wextra -Werror -g3 -pthread
 REMOVE = rm -f
 
 all: $(NAME)

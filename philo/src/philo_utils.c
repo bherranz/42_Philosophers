@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:47:51 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/31 17:41:43 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/03 21:30:30 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,20 @@ int	everyone_ate(t_data *data)
 	i = 0;
 	pthread_mutex_lock(&data->mutex_main);
 	if (data->num_must_eat == -1)
-	{
-		pthread_mutex_unlock(&data->mutex_main);
-		return (0);
-	}
+		return (pthread_mutex_unlock(&data->mutex_main), 0);
+	pthread_mutex_unlock(&data->mutex_main);
 	while (i < data->num_philos)
 	{
+		pthread_mutex_lock(&data->philos[i].mutex_philo);
+		pthread_mutex_lock(&data->mutex_main);
 		if (data->philos[i].num_eat < data->num_must_eat)
 		{
 			pthread_mutex_unlock(&data->mutex_main);
+			pthread_mutex_unlock(&data->philos[i].mutex_philo);
 			return (0);
 		}
+		pthread_mutex_unlock(&data->mutex_main);
+		pthread_mutex_unlock(&data->philos[i].mutex_philo);
 		i++;
 	}
 	pthread_mutex_unlock(&data->mutex_main);
@@ -41,8 +44,12 @@ void	print_status(t_philo *philo, char *status)
 	pthread_mutex_lock(&philo->data->print);
 	pthread_mutex_lock(&philo->data->mutex_main);
 	if (!philo->data->dead || ft_strcmp(status, "died") == 0)
+	{
+		pthread_mutex_unlock(&philo->data->mutex_main);
 		printf("%lld %d %s\n", get_ms(philo->data), philo->id, status);
-	pthread_mutex_unlock(&philo->data->mutex_main);
+	}
+	else
+		pthread_mutex_unlock(&philo->data->mutex_main);
 	pthread_mutex_unlock(&philo->data->print);
 }
 
@@ -55,9 +62,14 @@ int	check_finish(t_philo *philo)
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->data->mutex_main);
+	pthread_mutex_lock(&philo->mutex_philo);
 	if (philo->data->num_must_eat != -1
 		&& philo->num_eat >= philo->data->num_must_eat)
+	{
+		pthread_mutex_unlock(&philo->mutex_philo);
 		return (1);
+	}
+	pthread_mutex_unlock(&philo->mutex_philo);
 	return (check_death(philo));
 }
 
