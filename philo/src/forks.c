@@ -35,6 +35,7 @@ t_forks	*ft_lstnew(int i)
 	if (pthread_mutex_init(&new_node->current, NULL) != 0)
 		print_error("Error: Mutex init error\n", NULL);
 	new_node ->index = i;
+	new_node ->is_locked = 0;
 	new_node ->next = NULL;
 	return (new_node);
 }

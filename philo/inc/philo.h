@@ -27,6 +27,7 @@ typedef struct s_forks
 {
 	pthread_mutex_t	current;
 	int				index;
+	int				is_locked;
 	t_forks			*next;
 }	t_forks;
 
@@ -35,8 +36,8 @@ typedef struct s_philo
 	int				id;
 	int				dead;
 	int				num_eat;
-	pthread_mutex_t	left_fork;
-	pthread_mutex_t	right_fork;
+	t_forks			*left_fork;
+	t_forks			*right_fork;
 	long long		last_eat;
 	pthread_t		thread;
 	t_data			*data;
@@ -93,5 +94,6 @@ void		ft_lstadd_back(t_forks **lst, t_forks *new);
 t_forks		*ft_lstlast(t_forks *lst);
 t_forks		*ft_lstnew(int i);
 void		free_forks(t_forks *file_list);
+void		unlock_forks(t_philo *philo);
 
 #endif

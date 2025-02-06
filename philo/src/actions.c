@@ -40,17 +40,17 @@ void	exact_usleep(t_philo *philo, long long time)
 
 void	unlock_forks(t_philo *philo)
 {
-	pthread_mutex_unlock(&philo->left_fork);
-	pthread_mutex_unlock(&philo->right_fork);
+	pthread_mutex_unlock(&philo->left_fork->current);
+	pthread_mutex_unlock(&philo->right_fork->current);
 }
 
 int	ft_eat(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->left_fork);
+	pthread_mutex_lock(&philo->left_fork->current);
 	if (check_finish(philo))
-		return (pthread_mutex_unlock(&philo->left_fork), 1);
+		return (pthread_mutex_unlock(&philo->left_fork->current), 1);
 	print_status(philo, "has taken a fork");
-	pthread_mutex_lock(&philo->right_fork);
+	pthread_mutex_lock(&philo->right_fork->current);
 	if (check_finish(philo))
 		return (unlock_forks(philo), 1);
 	print_status(philo, "has taken a fork");

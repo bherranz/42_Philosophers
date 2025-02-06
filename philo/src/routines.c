@@ -47,7 +47,6 @@ void	*case_one(void *arg)
 	philo = (t_philo *)arg;
 	data = philo->data;
 	wait_philos(data);
-	pthread_mutex_lock(&philo->left_fork);
 	print_status(philo, "has taken a fork");
 	usleep(data->time_die * 1000);
 	pthread_mutex_lock(&philo->mutex_philo);

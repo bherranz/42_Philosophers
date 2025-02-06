@@ -49,7 +49,7 @@ void	thread_cases(t_data *data, t_philo *philo)
 	}
 }
 
-pthread_mutex_t	find_fork(t_data *data, int index)
+t_forks	*find_fork(t_data *data, int index)
 {
 	int		i;
 	t_forks	*current;
@@ -61,7 +61,7 @@ pthread_mutex_t	find_fork(t_data *data, int index)
 		current = current->next;
 		i++;
 	}
-	return (current->current);
+	return (current);
 }
 
 void	init_routines(t_data *data)
