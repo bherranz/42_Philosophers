@@ -38,12 +38,6 @@ void	exact_usleep(t_philo *philo, long long time)
 		split_usleep(philo, time);
 }
 
-void	unlock_forks(t_philo *philo)
-{
-	pthread_mutex_unlock(&philo->left_fork->current);
-	pthread_mutex_unlock(&philo->right_fork->current);
-}
-
 int	ft_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->left_fork->current);
@@ -77,5 +71,26 @@ int	ft_sleep(t_philo *philo)
 		return (1);
 	print_status(philo, "is sleeping");
 	exact_usleep(philo, philo->data->time_sleep);
+	return (0);
+}
+
+int	ft_think(t_philo *philo)
+{
+	int		time_left;
+	int		left_eat_time_prev;
+	t_data	*d;
+
+	if (check_finish(philo))
+		return (1);
+	pthread_mutex_lock(&philo->mutex_philo);
+	d = philo->data;
+	pthread_mutex_unlock(&philo->mutex_philo);
+	print_status(philo, "is thinking");
+	pthread_mutex_lock(&philo->mutex_philo);
+	time_left = d->time_die - (d->time_eat + d->time_sleep);
+	left_eat_time_prev = d->time_eat - d->time_sleep;
+	if (time_left > 0 && left_eat_time_prev > time_left)
+		usleep((time_left + 1) * 1000);
+	pthread_mutex_unlock(&philo->mutex_philo);
 	return (0);
 }

@@ -75,9 +75,10 @@ void	*philo_life(void *arg)
 			return (NULL);
 		if (ft_sleep(philo))
 			return (NULL);
+		if (ft_think(philo))
+			return (NULL);
 		if (check_finish(philo))
 			return (NULL);
-		print_status(philo, "is thinking");
 	}
 	return (NULL);
 }

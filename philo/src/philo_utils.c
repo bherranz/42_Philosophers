@@ -78,7 +78,7 @@ int	check_death(t_philo *philo)
 	if (get_ms(philo->data) - philo->last_eat > philo->data->time_die)
 	{
 		pthread_mutex_lock(&philo->data->mutex_main);
-		if (!philo->data->dead)
+		if (!philo->data->dead && philo->data->num_philos != 1)
 		{
 			philo->data->dead = 1;
 			pthread_mutex_unlock(&philo->data->mutex_main);

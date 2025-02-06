@@ -81,6 +81,7 @@ void		wait_routines(t_data *data);
 
 int			ft_sleep(t_philo *philo);
 int			ft_eat(t_philo *philo);
+int			ft_think(t_philo *philo);
 void		print_status(t_philo *philo, char *status);
 int			check_finish(t_philo *philo);
 int			check_death(t_philo *philo);

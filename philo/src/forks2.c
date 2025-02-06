@@ -10,4 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../inc/philo.h"
 
+void	unlock_forks(t_philo *philo)
+{
+	pthread_mutex_unlock(&philo->left_fork->current);
+	pthread_mutex_unlock(&philo->right_fork->current);
+}
