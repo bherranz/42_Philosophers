@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:03:36 by codespace         #+#    #+#             */
-/*   Updated: 2025/02/03 21:28:55 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/09 10:38:59 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	set_data(t_data *data, int argc, char **argv)
 	data->time_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
 		data->num_must_eat = ft_atoi(argv[5]);
-	if (data->num_philos < 0 || data->num_philos > 200)
+	if (data->num_philos <= 0 || data->num_philos > 200)
 		print_error("Error: Invalid number of philosophers\n", data);
 	if (data->time_die < 60 || data->time_eat < 60 || data->time_sleep < 60)
 		print_error("Error: Invalid time\n", data);

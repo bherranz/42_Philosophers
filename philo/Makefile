@@ -23,7 +23,7 @@ OBJS = ${SRCS:.c=.o}
 .SILENT: $(OBJS)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g3 -pthread #-fsanitize=thread
 REMOVE = rm -f
 
 all: $(NAME)
