@@ -17,15 +17,14 @@ This project is an implementation of the classic **Dining Philosophers Problem**
 - If a philosopher **fails to eat** within a specified time, they **die**, and the simulation ends.  
 - Philosophers do not communicate; they only act based on available resources.
 
-          [Philosopher 1] -- (Fork 1) -- [Philosopher 2]
-               |                          |
-           (Fork 5)                    (Fork 2)
-               |                          |
-        [Philosopher 5] -- (Fork 4) -- [Philosopher 3]
-               |                          |
-           (Fork 3)                    (Fork 3)
-               |                          |
-        [Philosopher 4] -- (Fork 2) -- [Philosopher 1]
+```mermaid
+graph TD;
+    A[Philosopher 1] -->|Fork 1| B[Philosopher 2];
+    B -->|Fork 2| C[Philosopher 3];
+    C -->|Fork 3| D[Philosopher 4];
+    D -->|Fork 4| E[Philosopher 5];
+    E -->|Fork 5| A;
+```
 
 
 The program execution ends when **one philosopher dies** or when they have **eaten a predefined number of times** (if specified in the execution arguments).  
@@ -57,16 +56,27 @@ make
 2024 1 is thinking  
 ```  
 
-**Case 2:** Simulation with 4 philosophers, each must eat at least 3 times  
+**Case 2:** Simulation with 3 philosophers, each must eat at least 2 times  
 ```bash
-./philo 4 800 200 200 3  
+./philo 3 800 200 200 2
 ```
 ```
-100 1 has taken a fork  
-101 1 has taken a fork  
-102 1 is eating  
-302 1 is sleeping  
-502 1 is thinking  
+0 2 has taken a fork
+0 2 has taken a fork
+0 2 is eating
+200 2 is sleeping
+200 1 has taken a fork
+200 1 has taken a fork
+200 1 is eating
+400 1 is sleeping
+400 2 is thinking
+400 2 has taken a fork
+400 2 has taken a fork
+400 2 is eating
+600 1 is thinking
+600 1 has taken a fork
+600 1 has taken a fork
+600 1 is eating
 ```  
 
 In both cases, the simulation continues until a philosopher **dies of starvation** or completes the required number of meals.  
