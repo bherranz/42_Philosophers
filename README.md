@@ -1,16 +1,16 @@
 # 🍴 **42_Philosophers**  
 Concurrency philosophers problem in C language.  
 
-## 📜 Table of Contents  
-- [Introduction](#-introduction)  
-- [How It Works](#-how-it-works)  
+## 📜 Table of Contents
+- [Introduction](#-introduction)
+- [How It Works](#-how-it-works)
+- [Usage Example](#-usage-example)
 - [Installation](#-installation)
-- [Usage Example](#-usage-example)  
 
 ## 📖 Introduction  
 This project is an implementation of the classic **Dining Philosophers Problem** in C, using **threads** and **mutexes** for mutual exclusion. The simulation ensures proper synchronization of philosophers to prevent race conditions and guarantees that no philosopher starves.  
 
-## ⚙️ How It Works  
+## ⚙️ How It Works
 - A number of philosophers (n) alternate between **thinking, eating, and sleeping**.  
 - To eat, a philosopher must pick up **two forks** (one on the right and one on the left).  
 - Forks are **protected with mutexes** to avoid race conditions.  
