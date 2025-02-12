@@ -1,11 +1,11 @@
-🍴 **42_Philosophers**  
+# 🍴 **42_Philosophers**  
 Concurrency philosophers problem in C language.  
 
 ## 📜 Table of Contents  
-- Introduction  
-- How It Works  
-- Usage Example  
-- Installation  
+- [Introduction](#-introduction)  
+- [How It Works](#-how-it-works)  
+- [Usage Example](#-usage-example)  
+- [Installation](#-installation)   
 
 ## 📖 Introduction  
 This project is an implementation of the classic **Dining Philosophers Problem** in C, using **threads** and **mutexes** for mutual exclusion. The simulation ensures proper synchronization of philosophers to prevent race conditions and guarantees that no philosopher starves.  
@@ -46,14 +46,18 @@ make
 
 **Case 1:** Simulation with 5 philosophers and no meal limit  
 ```bash
-./philo 5 800 200 200  
+./philo 4 310 200 100  
 ```
 ```
-1623 1 has taken a fork  
-1623 1 has taken a fork  
-1624 1 is eating  
-1824 1 is sleeping  
-2024 1 is thinking  
+0 2 has taken a fork
+0 2 has taken a fork
+0 2 is eating
+200 2 is sleeping
+200 1 has taken a fork
+200 1 has taken a fork
+200 1 is eating
+300 2 is thinking
+311 2 died
 ```  
 
 **Case 2:** Simulation with 3 philosophers, each must eat at least 2 times  
