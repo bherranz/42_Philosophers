@@ -1,69 +1,72 @@
-# 🍴 42_Philosophers
-Concurrency philosophers problem in C language.
-&#x20;&#x20;
+🍴 **42_Philosophers**  
+Concurrency philosophers problem in C language.  
 
-## 📜 Índice
+## 📜 Table of Contents  
+- Introduction  
+- How It Works  
+- Usage Example  
+- Installation  
 
-- [Introducción](#introducci%C3%B3n)
-- [Cómo funciona](#c%C3%B3mo-funciona)
-- [Ejemplo de uso](#ejemplo-de-uso)
-- [Instalación](#instalaci%C3%B3n)
-- [Contacto](#contacto)
+## 📖 Introduction  
+This project is an implementation of the classic **Dining Philosophers Problem** in C, using **threads** and **mutexes** for mutual exclusion. The simulation ensures proper synchronization of philosophers to prevent race conditions and guarantees that no philosopher starves.  
 
-## 📖 Introducción
+## ⚙️ How It Works  
+- A number of philosophers (n) alternate between **thinking, eating, and sleeping**.  
+- To eat, a philosopher must pick up **two forks** (one on the right and one on the left).  
+- Forks are **protected with mutexes** to avoid race conditions.  
+- If a philosopher **fails to eat** within a specified time, they **die**, and the simulation ends.  
+- Philosophers do not communicate; they only act based on available resources.
 
-Este proyecto es una implementación del clásico problema de los filósofos comensales en C, utilizando hilos (threads) y exclusión mutua (mutex). La simulación gestiona la sincronización de los filósofos para evitar condiciones de carrera y garantizar que no mueran de hambre.
+          [Philosopher 1] -- (Fork 1) -- [Philosopher 2]
+               |                          |
+           (Fork 5)                    (Fork 2)
+               |                          |
+        [Philosopher 5] -- (Fork 4) -- [Philosopher 3]
+               |                          |
+           (Fork 3)                    (Fork 3)
+               |                          |
+        [Philosopher 4] -- (Fork 2) -- [Philosopher 1]
 
-## ⚙️ Cómo funciona
-  -Se crean n filósofos que se alternan entre pensar, comer y dormir.
-  -Para comer, cada filósofo necesita tomar dos tenedores (uno a la derecha y otro a la izquierda).
-  -Los tenedores están protegidos con mutexes para evitar condiciones de carrera (race conditions).
-  -Si un filósofo no logra comer dentro de un tiempo determinado, muere y la simulación termina.
-  -Los filósofos no se comunican entre sí, solo toman decisiones basadas en los recursos disponibles.
 
-La ejecución del programa finaliza cuando uno de los filósofos muere o cuando han comido un número predefinido de veces (si se especifica en los argumentos de ejecución).
+The program execution ends when **one philosopher dies** or when they have **eaten a predefined number of times** (if specified in the execution arguments).  
 
-```mermaid
-graph TD;
-    A[Filósofo 1] -->|Tenedor 1| B[Filósofo 2];
-    B -->|Tenedor 2| C[Filósofo 3];
-    C -->|Tenedor 3| D[Filósofo 4];
-    D -->|Tenedor 4| E[Filósofo 5];
-    E -->|Tenedor 5| A;
+## 🚀 Installation  
+```bash
+# Clone the repository  
+git clone https://github.com/yourusername/philosophers.git  
+cd philosophers/philo  
+
+# Compile the project  
+make  
+
+# Run the simulation with 5 philosophers  
+./philo 5 800 200 200  
+```  
+
+## 🎮 Usage Example  
+
+**Case 1:** Simulation with 5 philosophers and no meal limit  
+```bash
+./philo 5 800 200 200  
 ```
-
-## 🚀 Instalación  
-```sh
-# Clonar el repositorio
-git clone https://github.com/tuusuario/philosophers.git
-cd philosophers/philo
-
-# Compilar el proyecto
-make
-
-# Ejecutar la simulación con 5 filósofos
-./philo 5 800 200 200
 ```
+1623 1 has taken a fork  
+1623 1 has taken a fork  
+1624 1 is eating  
+1824 1 is sleeping  
+2024 1 is thinking  
+```  
 
-## 🎮 Ejemplo de uso  
-### Caso 1: Simulación con 5 filósofos y sin límite de comidas
-```sh
-./philo 5 800 200 200
-1623 1 has taken a fork
-1623 1 has taken a fork
-1624 1 is eating
-1824 1 is sleeping
-2024 1 is thinking
+**Case 2:** Simulation with 4 philosophers, each must eat at least 3 times  
+```bash
+./philo 4 800 200 200 3  
 ```
-
-### Caso 2: Simulación con 4 filósofos y cada uno debe comer al menos 3 veces
-```sh
-./philo 4 800 200 200 3
-100 1 has taken a fork
-101 1 has taken a fork
-102 1 is eating
-302 1 is sleeping
-502 1 is thinking
 ```
+100 1 has taken a fork  
+101 1 has taken a fork  
+102 1 is eating  
+302 1 is sleeping  
+502 1 is thinking  
+```  
 
-En ambos casos, la simulación sigue hasta que uno de los filósofos muera de inanición o cumplan el número requerido de comidas.
+In both cases, the simulation continues until a philosopher **dies of starvation** or completes the required number of meals.  
